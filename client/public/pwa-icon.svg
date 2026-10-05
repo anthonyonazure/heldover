@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background: dark slate, full bleed so maskable icons can crop safely -->
+  <rect width="512" height="512" fill="#0f172a"/>
+
+  <!-- Subtle inner panel suggesting a screen -->
+  <rect x="48" y="48" width="416" height="416" rx="56" fill="#1e293b"/>
+
+  <!-- Filmstrip strip along bottom -->
+  <rect x="48" y="396" width="416" height="68" fill="#0f172a"/>
+  <g fill="#E5A00D">
+    <rect x="80"  y="416" width="32" height="32" rx="6"/>
+    <rect x="136" y="416" width="32" height="32" rx="6"/>
+    <rect x="192" y="416" width="32" height="32" rx="6"/>
+    <rect x="248" y="416" width="32" height="32" rx="6"/>
+    <rect x="304" y="416" width="32" height="32" rx="6"/>
+    <rect x="360" y="416" width="32" height="32" rx="6"/>
+    <rect x="416" y="416" width="32" height="32" rx="6"/>
+  </g>
+
+  <!-- Large play triangle, slightly inset to stay inside maskable safe zone (~80% center) -->
+  <polygon points="200,160 200,360 360,260" fill="#E5A00D"/>
+</svg>

@@ -1,0 +1,91 @@
+{
+  "name": "heldover",
+  "version": "1.1.0",
+  "description": "Now showing: tonight's pick. Find something to watch across every Plex library you can reach.",
+  "main": "main.js",
+  "author": "anthonyonazure",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "electron-builder install-app-deps",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder --win --mac --linux",
+    "prepackage": "cd ../server && npm install --production",
+    "rebuild:server": "electron-rebuild --module-dir ../server --only better-sqlite3"
+  },
+  "dependencies": {
+    "electron-store": "^8.2.0"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^4.2.0",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.anthonyonazure.heldover",
+    "productName": "Heldover",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "main.js"
+    ],
+    "extraResources": [
+      {
+        "from": "../server",
+        "to": "server",
+        "filter": [
+          "**/*",
+          "!.env",
+          "!data/**"
+        ]
+      },
+      {
+        "from": "../client/dist",
+        "to": "client-dist"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.png"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "build/icon.png",
+      "category": "public.app-category.entertainment"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "build/icon.png",
+      "category": "AudioVideo"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "overrides": {
+    "@tootallnate/once": "^2.0.1",
+    "@xmldom/xmldom": "^0.8.15",
+    "brace-expansion@1": "^1.1.18",
+    "brace-expansion@2": "^2.1.4",
+    "brace-expansion@5": "^5.0.9",
+    "fast-uri": "^3.1.6",
+    "form-data": "^4.0.6",
+    "ip-address": "^10.3.1",
+    "js-yaml": "^4.3.2",
+    "lodash": "^4.18.0",
+    "tar": "^7.5.21",
+    "tmp": "^0.2.6"
+  }
+}

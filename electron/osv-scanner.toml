@@ -1,0 +1,13 @@
+# Scoped osv-scanner ignores for electron/package-lock.json only.
+# osv-scanner reads this file because it sits next to the lockfile it scans.
+# Accepted by the maintainer on 2026-09-15. Add nothing here without a written reason.
+
+[[IgnoredVulns]]
+id = "GHSA-jmr9-qjv8-65gv"
+ignoreUntil = 2027-03-15T00:00:00Z
+reason = "extract-zip 2.0.1 is an Electron 39 build-time dev dependency with no patched version, and it is not shipped in the running app. Revisit: remove when Electron drops extract-zip."
+
+[[IgnoredVulns]]
+id = "GHSA-7pqw-9j4j-h8q3"
+ignoreUntil = 2027-03-15T00:00:00Z
+reason = "extract-zip 2.0.1 is an Electron 39 build-time dev dependency with no patched version, and it is not shipped in the running app. Revisit: remove when Electron drops extract-zip."

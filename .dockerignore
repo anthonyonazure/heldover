@@ -1,0 +1,22 @@
+# Allowlist: nothing enters the build context unless it is named here, so a
+# settings file, database or log lying in the folder can never end up in an
+# image. These are the only paths the Dockerfile copies.
+*
+!client/
+!server/package.json
+!server/package-lock.json
+!server/src/
+!docker-entrypoint.sh
+
+# Never, even inside the folders allowed above. (The data folders, ./data and
+# server/data, are already out: they are not on the list.)
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+**/*.log
+**/*.err
+**/*.db
+**/*.db-wal
+**/*.db-shm
+**/.DS_Store

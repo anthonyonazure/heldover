@@ -1,0 +1,5 @@
+# The Gauntlet runs "bun test" from the repo root. Tests under server/test
+# load better-sqlite3, a native Node module Bun cannot load, so they run under
+# Node instead ("npm test" in server/, and in the CI workflow).
+[test]
+root = "server/src"
