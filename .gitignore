@@ -1,0 +1,21 @@
+node_modules/
+dist/
+dist-electron/
+
+# Where the app keeps its settings (the Plex token and API keys), database
+# and posters: server/data when run from source, ./data next to
+# docker-compose.yml. Never commit any of it.
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Environment files can hold tokens. Only the example is committed.
+.env
+.env.*
+!.env.example
+
+.DS_Store
+*.log
+*.err
+*.png.tmp

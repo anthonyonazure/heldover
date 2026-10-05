@@ -1,0 +1,252 @@
+/* The Inter typeface ships inside the app. Loading it from Google told Google
+   about every visit, before anyone had signed in. */
+@import '@fontsource-variable/inter';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply text-gray-100 antialiased;
+    font-family: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  body {
+    background-color: #06070d;
+    background-image:
+      radial-gradient(1200px 800px at 80% -10%, rgba(245, 197, 24, 0.06), transparent 60%),
+      radial-gradient(900px 700px at -10% 110%, rgba(98, 71, 220, 0.08), transparent 55%),
+      linear-gradient(180deg, #0a0b14 0%, #06070d 40%, #06070d 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  }
+}
+
+@layer components {
+  .rating-good {
+    @apply text-green-400;
+  }
+
+  .rating-mid {
+    @apply text-yellow-400;
+  }
+
+  .rating-bad {
+    @apply text-red-400;
+  }
+
+  /* Frosted-glass panel — used on modals, headers, the now-playing bar */
+  .glass {
+    background-color: rgba(14, 15, 26, 0.62);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 10px 40px -10px rgba(0, 0, 0, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  /* Softer glass for non-modal surfaces (sidebar, cards, etc.) */
+  .glass-soft {
+    background-color: rgba(22, 24, 36, 0.55);
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  /* Section card with subtle gradient border */
+  .card-elevated {
+    background-image: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  .text-gradient-amber {
+    background: linear-gradient(135deg, #ffe066 0%, #f5c518 45%, #d4a800 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .text-gradient-cool {
+    background: linear-gradient(135deg, #6c5ce7 0%, #4f88f4 50%, #01b4e4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .ring-glow-amber {
+    box-shadow: 0 0 0 1px rgba(245, 197, 24, 0.4), 0 20px 50px -20px rgba(245, 197, 24, 0.45);
+  }
+
+  /* Hide scrollbar for horizontal carousel rows but keep functionality */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Slider custom styling */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type='range']::-webkit-slider-track {
+  background: rgba(255, 255, 255, 0.08);
+  height: 4px;
+  border-radius: 2px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f5c518;
+  margin-top: -6px;
+  box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.15);
+}
+
+input[type='range']::-moz-range-track {
+  background: rgba(255, 255, 255, 0.08);
+  height: 4px;
+  border-radius: 2px;
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f5c518;
+  border: none;
+  box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.15);
+}
+
+/* Confetti animation for Random Pick */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.animate-confetti-fall {
+  animation: confetti-fall 2s ease-out forwards;
+}
+
+/* Subtle Ken-Burns zoom for hero backdrops */
+@keyframes ken-burns {
+  0%   { transform: scale(1.0)  translateY(0); }
+  100% { transform: scale(1.08) translateY(-1%); }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 24s ease-in-out infinite alternate;
+}
+
+@layer utilities {
+  /* ---------------------------------------------------------------------------
+     Netflix skin.
+
+     Set data-skin="netflix" on <html> and the same components repaint: black
+     ground, red accent, tighter corners, flatter cards. The palette lives in
+     Tailwind's compiled classes rather than CSS variables, so this overrides
+     those classes directly instead of re-theming tokens.
+
+     The point is familiarity, not imitation for its own sake — someone who has
+     used Netflix for a decade should not have to learn where anything is.
+  --------------------------------------------------------------------------- */
+
+  html[data-skin='netflix'] body {
+    background-color: #141414;
+    background-image: none;
+  }
+
+  html[data-skin='netflix'] .bg-surface-950 { background-color: #000000; }
+  html[data-skin='netflix'] .bg-surface-900 { background-color: #141414; }
+  html[data-skin='netflix'] .bg-surface-850 { background-color: #181818; }
+  html[data-skin='netflix'] .bg-surface-800 { background-color: #202020; }
+  html[data-skin='netflix'] .bg-surface-700 { background-color: #2a2a2a; }
+  html[data-skin='netflix'] .bg-surface-600 { background-color: #333333; }
+
+  html[data-skin='netflix'] .border-surface-700 { border-color: #2a2a2a; }
+  html[data-skin='netflix'] .border-surface-600 { border-color: #333333; }
+
+  html[data-skin='netflix'] .bg-accent { background-color: #e50914; }
+  html[data-skin='netflix'] .text-accent { color: #e50914; }
+  html[data-skin='netflix'] .border-accent { border-color: #e50914; }
+  html[data-skin='netflix'] .focus\:border-accent:focus { border-color: #e50914; }
+
+  /* The default theme's amber hover glow reads as gold; Netflix cards just get
+     brighter and larger. */
+  html[data-skin='netflix'] .hover\:border-amber-400\/40:hover { border-color: rgba(255, 255, 255, 0.5); }
+  html[data-skin='netflix'] .hover\:text-amber-400:hover { color: #e50914; }
+  html[data-skin='netflix'] .text-gradient-amber {
+    background-image: none;
+    -webkit-text-fill-color: #e50914;
+    color: #e50914;
+  }
+
+  /* Netflix rounds corners barely at all. */
+  html[data-skin='netflix'] .rounded-2xl { border-radius: 0.375rem; }
+  html[data-skin='netflix'] .rounded-xl { border-radius: 0.25rem; }
+  html[data-skin='netflix'] .rounded-lg { border-radius: 0.1875rem; }
+
+  html[data-skin='netflix'] .glass {
+    background-color: rgba(20, 20, 20, 0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  html[data-skin='netflix'] body,
+  html[data-skin='netflix'] html {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+}

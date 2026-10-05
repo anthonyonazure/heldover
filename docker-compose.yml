@@ -1,0 +1,76 @@
+# Example Docker Compose setup for Heldover.
+#
+#   docker compose up -d
+#   then open http://<this-machine>:3001
+#
+# No environment variables are required. API keys and the Plex token can be
+# entered later in the app's setup screen, or set below.
+
+services:
+  heldover:
+    image: ghcr.io/anthonyonazure/heldover:latest
+    # build: .            # uncomment to build from this checkout instead
+    container_name: heldover
+    restart: unless-stopped
+
+    # Host networking is required for TV casting. Finding TVs uses SSDP
+    # (UDP multicast to 239.255.255.250) and the app advertises itself over
+    # mDNS; neither multicast protocol crosses Docker's default bridge network.
+    # With host networking the app listens directly on the host's port 3001,
+    # so no "ports:" mapping is used (Docker ignores it in this mode).
+    # Note: host networking works fully on Linux. On Docker Desktop (Mac and
+    # Windows) the "host" is a VM, so TV discovery will not reach your LAN.
+    network_mode: host
+
+    volumes:
+      # Database, settings and poster cache, kept next to this file. Docker
+      # creates the folder on the first start and the container hands it to
+      # the user the app runs as (PUID and PGID below), so there is nothing to
+      # create or chown by hand.
+      - ./data:/data
+
+    # Optional settings (uncomment "environment:" and any lines you need):
+    # environment:
+    #   PUID: "1000"                # the user that owns the files in ./data
+    #   PGID: "1000"                # and its group. Default 1000 and 1000.
+    #                               # Unraid: 99 and 100. Synology: run "id"
+    #                               # over SSH to see yours (1026 or higher).
+    #   PORT: "3001"                # change if 3001 is taken on the host
+    #   TMDB_API_KEY: ""
+    #   OMDB_API_KEY: ""
+    #   MDBLIST_API_KEY: ""
+    #   FANART_API_KEY: ""
+    #   PLEX_TOKEN: ""
+    #   MDNS_NAME: "heldover"    # advertised as heldover.local
+    #   DISABLE_MDNS: "1"           # turn off mDNS advertising
+    #   TZ: "Etc/UTC"
+
+    # The app never runs as root: the container starts as root only to make
+    # /data writable, then switches to PUID:PGID. To skip that step, start it
+    # as your own user instead; ./data must then exist and be writable by it.
+    # user: "1000:1000"
+
+# ---------------------------------------------------------------------------
+# Alternative: bridged network (ports mapped normally).
+# Everything except TV casting works. TV discovery will NOT find TVs in this
+# mode because SSDP/mDNS multicast does not pass through the Docker bridge.
+# The app only knows the container's internal address in this mode, so open
+# http://<your server's address>:<the port you mapped>.
+# It also cannot tell which computer it runs on in this mode, so every
+# device, the server itself included, uses the settings code to manage it
+# (docker logs heldover).
+# To use it, replace the service above with:
+#
+# services:
+#   heldover:
+#     image: ghcr.io/anthonyonazure/heldover:latest
+#     container_name: heldover
+#     restart: unless-stopped
+#     ports:
+#       - "3001:3001"
+#     volumes:
+#       - ./data:/data
+#     environment:
+#       DISABLE_MDNS: "1"
+#       # TMDB_API_KEY: ""
+# ---------------------------------------------------------------------------

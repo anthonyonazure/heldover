@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+# Pre-commit checks — block the commit if any gate fails. Your gate when there is no CI.
+set -e
+echo "· checks: stack"
+bun run check
+echo "· checks: secret scan"
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --redact --no-banner
+else
+  echo "  (gitleaks not installed locally — CI still enforces it)"
+fi
+echo "OK checks passed"
