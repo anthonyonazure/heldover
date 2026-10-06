@@ -12,6 +12,8 @@ Find something worth watching across every Plex server you can reach, your own a
 
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/mindmap)
 
+**[📖 Read the user guide](https://anthonyonazure.github.io/heldover/guide/Heldover-User-Guide.html)**, from install to your first movie night.
+
 <img src="docs/screenshots/home.png" alt="Heldover front page with mood shelves" width="820" />
 
 </div>
