@@ -19,7 +19,7 @@
     "electron-store": "^8.2.0"
   },
   "devDependencies": {
-    "@electron/rebuild": "^4.2.0",
+    "@electron/rebuild": "^4.2.1",
     "electron": "^44.4.5",
     "electron-builder": "^26.15.3"
   },
