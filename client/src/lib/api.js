@@ -752,6 +752,13 @@ export async function getShelves(options = {}) {
   return res.json();
 }
 
+export async function findTitles(q, signal) {
+  const res = await fetch(`${API_BASE}/api/find?q=${encodeURIComponent(q)}`, { signal });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.error || `Search failed: ${res.statusText}`);
+  return body;
+}
+
 export async function askForSomething(question) {
   const res = await fetch(`${API_BASE}/api/ask`, {
     method: 'POST',

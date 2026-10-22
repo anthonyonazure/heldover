@@ -6,6 +6,7 @@ import SettingsModal from './components/SettingsModal';
 import StatusBar from './components/StatusBar';
 import NewAdditionsPanel from './components/NewAdditionsPanel';
 import TrendingRow from './components/TrendingRow';
+import TitleSearchResults from './components/TitleSearchResults';
 import Watchlist from './components/Watchlist';
 import WatchLaterQueue from './components/WatchLaterQueue';
 import RandomPick from './components/RandomPick';
@@ -628,6 +629,7 @@ export default function App() {
           {/* New Additions panel */}
           {!selectedLibrary && (
             <>
+              <TitleSearchResults query={filters.search || ''} libraries={libraries} onPick={(item) => setWatchOnDeviceItem(item)} />
               <AskBox onPick={(item) => setWatchOnDeviceItem(item)} />
               <ShelfRows onPick={(item) => setWatchOnDeviceItem(item)} />
             </>

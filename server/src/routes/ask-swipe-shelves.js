@@ -4,7 +4,7 @@ import { getNotInterestedSet } from '../feedback.js';
 import { stats as posterCacheStats } from '../poster-cache.js';
 import { parseVoiceQuery } from '../voice-parse.js';
 import { createSession, getSession, getMatches, recordVote } from '../swipe.js';
-import { indexSize, queryRated } from '../corpus-index.js';
+import { indexSize, queryRated, searchTitles } from '../corpus-index.js';
 import { app, clampCount } from '../app.js';
 import { warmPostersFor } from './servers-posters.js';
 
@@ -68,6 +68,26 @@ app.post('/api/ask', (req, res) => {
     });
   } catch (err) {
     console.error('Error answering ask:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/find?q=blade runner
+ *
+ * Title search across every library on every server. The filter panel's
+ * search box only looks inside the library you have open; this is the one that
+ * answers "do any of these servers have it".
+ */
+app.get('/api/find', (req, res) => {
+  try {
+    const q = String(req.query.q || '').trim();
+    if (!q) return res.json({ q, items: [], count: 0 });
+    if (indexSize() === 0) return res.json({ q, items: [], count: 0, stillReading: true });
+    const items = searchTitles(q, { limit: clampCount(req.query.count, 60, 120) });
+    res.json({ q, items, count: items.length });
+  } catch (err) {
+    console.error('Error finding titles:', err.message);
     res.status(500).json({ error: err.message });
   }
 });

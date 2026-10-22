@@ -218,6 +218,52 @@ function shape(row, rating) {
   };
 }
 
+/**
+ * Titles whose name contains every word typed, across every library on every
+ * server. One result per film or show however many servers hold it; the
+ * servers that do are listed on it so the caller can say where to watch.
+ *
+ * Title only: the index holds no plot or cast, so those are searched inside a
+ * library, where the full records are.
+ */
+export function searchTitles(query, { limit = 60 } = {}) {
+  const words = String(query || '')
+    .toLowerCase()
+    .slice(0, 200)
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 8);
+  if (words.length === 0) return [];
+
+  const params = { limit, whole: words.join(' '), first: `${words[0]}%` };
+  const where = words.map((word, i) => {
+    params[`w${i}`] = `%${word.replace(/[\\%_]/g, '\\$&')}%`;
+    return `LOWER(c.title) LIKE @w${i} ESCAPE '\\'`;
+  });
+
+  const sql = `
+    SELECT c.*, GROUP_CONCAT(DISTINCT c.server_key) AS server_keys
+    FROM corpus_index c
+    WHERE c.title IS NOT NULL AND ${where.join(' AND ')}
+    GROUP BY CASE WHEN c.title_norm = '' THEN c.server_key || ':' || c.rating_key ELSE c.title_norm END,
+             c.year, c.type
+    ORDER BY (LOWER(c.title) = @whole) DESC,
+             (LOWER(c.title) LIKE @first) DESC,
+             MAX(COALESCE(c.added_at, 0)) DESC
+    LIMIT @limit
+  `;
+
+  try {
+    return db
+      .prepare(sql)
+      .all(params)
+      .map((row) => ({ ...shape(row, null), serverKeys: String(row.server_keys || '').split(',') }));
+  } catch (err) {
+    console.error('Title search failed:', err.message);
+    return [];
+  }
+}
+
 // Always filtered by type. TMDB numbers films and series separately, so the
 // same id is routinely one of each (11,874 such pairs in this index), and an
 // unfiltered lookup marked unrelated titles "you have this" and cast them.
