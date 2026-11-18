@@ -9,7 +9,7 @@
     "test": "node --test --test-force-exit test/*.test.js"
   },
   "dependencies": {
-    "better-sqlite3": "^13.0.3",
+    "better-sqlite3": "^13.2.0",
     "bonjour-service": "^1.3.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
